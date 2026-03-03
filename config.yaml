@@ -1,0 +1,104 @@
+# 数据集路径
+train_file_path: /mnt/a782f50b-253f-43da-ac99-945477898740/chensheng/Project2/train/train
+val_file_path: /mnt/a782f50b-253f-43da-ac99-945477898740/chensheng/Project2/train/val
+test_file_path: /mnt/a782f50b-253f-43da-ac99-945477898740/chensheng/Project2/predict/test
+# 文件路径
+lve: /home/chensheng/1Project/Project2/FLAME/flame_mask/lve.txt
+fdd: /home/chensheng/1Project/Project2/FLAME/flame_mask/fdd.txt
+template: /home/chensheng/1Project/Project2/FLAME/mean_template.npy
+flame_model: /home/chensheng/1Project/Project2/FLAME/flame_model/generic_model.pkl
+static_landmark_embedding: /home/chensheng/1Project/Project2/FLAME/flame_model/flame_static_embedding.pkl
+dynamic_landmark_embedding: /home/chensheng/1Project/Project2/FLAME/flame_model/flame_dynamic_embedding.npy
+
+# python VQVAE2/Predict.py
+# python Diffusion/Predict.py
+predict:
+  # 保存路径
+  vqvae2_dir: /home/chensheng/1Project/Project2/VQVAE2/checkpoints1/model_val.pth
+  diffusion_dir: /home/chensheng/1Project/Project2/Diffusion/checkpoints/model_epoch_800.pth
+  save_path: /mnt/a782f50b-253f-43da-ac99-945477898740/chensheng/Project2/predict/STt_vertices
+  # 参数设置
+  gpu: 0  #0/1
+  # flame参数
+  shape: 300  #形状参数数量
+  expression: 100  #表情参数数量
+
+  # (loss:0.01-0.01-10-100)(sample:25-25-0.2-5)(epoch:800)
+  #
+
+# python VQVAE2/Train.py
+stage1:
+  # 1 (loss:0.5-0.5-10-100)
+  #MVE: 4.0293e-04
+  #LVE: 1.6501e-05
+  #FDD: 4.5245e-06
+  # 2 (loss:0.5-0.5-10-100)无style
+  #MVE: 4.2936e-04
+  #LVE: 1.9973e-05
+  #FDD: 5.4408e-06
+  # 3 (loss:0.5-0.5-10-100)无text
+  #MVE: 4.1303e-04
+  #LVE: 1.8322e-05
+  #FDD: 6.3350e-06
+  # 4 (loss:0.5-0.5-10-100)无qtop
+  #MVE: 4.8547e-04
+  #LVE: 2.8259e-05
+  #FDD: 5.0996e-06
+  checkpoint_dir: /home/chensheng/1Project/Project2/VQVAE2/checkpoints5
+  # 参数设置
+  gpu: 0  #0/1
+  epochs: 400  #400
+  batch_size: 64  #64
+  learning_rate: 0.5  #0.5
+  warmup_steps: 10000  #10000
+  # vqvae参数
+  embed_dim: 256  #256
+  num_heads: 32  #32
+  num_layers_style: 2  #2
+  num_layers_top: 4  #4
+  num_layers_bottom: 6  #6
+  num_embeddings: 256  #256
+
+# python Diffusion/Train.py
+stage2:
+  # 1 (loss:0.01-0.01-10-100)(sample:25-25-0.2-5)(epoch:200)
+  #MVE: 6.4730e-04
+  #LVE: 5.4679e-05
+  #FDD: 8.1105e-06
+  #MEE: 5.1515e-05
+  #CE: 4.6468e-05
+  #Diversity: 2.0439e-04
+  # 2 (loss:0.01-0.01-10-100)(sample:25-25-0.2-5)(epoch:200)无style
+  #MVE: 8.7271e-04
+  #LVE: 8.9155e-05
+  #FDD: 4.6497e-05
+  #MEE: 7.7968e-05
+  #CE: 6.5192e-05
+  #Diversity: 4.3728e-04
+  # 3 (loss:0.01-0.01-10-100)(sample:25-25-0.2-5)(epoch:200)无text
+  #MVE: 9.1320e-04
+  #LVE: 7.7456e-05
+  #FDD: 5.3034e-05
+  #MEE: 7.2948e-05
+  #CE: 6.3117e-05
+  #Diversity: 2.9817e-04
+  # 4 (loss:0.01-0.01-10-100)(sample:25-25-0.2-5)(epoch:200)无qtop
+  #MVE: 6.9714e-04
+  #LVE: 5.9860e-05
+  #FDD: 3.3622e-05
+  #MEE: 5.6582e-05
+  #CE: 5.1935e-05
+  #Diversity: 1.9135e-04
+  vqvae2_dir: /home/chensheng/1Project/Project2/VQVAE2/checkpoints5/model_val.pth
+  checkpoint_dir: /home/chensheng/1Project/Project2/Diffusion/checkpoints5
+  # 参数设置
+  gpu: 0  #0/1
+  epochs: 200  #200
+  batch_size: 16  #16
+  learning_rate: 0.5  #0.5
+  warmup_steps: 10000  #10000
+  # 窗口层参数
+  num_heads: 32  #32
+  num_layers_temporal: 2  #2
+  num_layers_semantic: 3  #3
+  num_layers: 1  #1
