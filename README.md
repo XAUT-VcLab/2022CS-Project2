@@ -1,6 +1,6 @@
 # ProDecouTalk：结合分阶段解耦和向量量化扩散的情感可控3D说话人脸生成方法
 ## 简介
-项目位置：https://github.com/chen114514sheng/ProDecouTalk
+项目位置：https://github.com/chen114514sheng/ProDecouTalk3D
 
 本项目使用语音、文本、身份向量这3个条件，结合分阶段解耦与向量量化扩散的方法生成说话人脸视频。
 ## 方法概述
