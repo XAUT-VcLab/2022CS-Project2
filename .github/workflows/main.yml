@@ -1,26 +1,32 @@
-name: Sync Upstream
+name: Sync from Personal Fork
 
 on:
   schedule:
-    # 定时运行，这里是 UTC 时间，'0 0 * * *' 代表每天北京时间早上8点执行
-    - cron: '0 0 * * *'
-  # 允许你手动触发
+    - cron: '0 */6 * * *'
   workflow_dispatch:
 
 jobs:
   sync:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          # 必须带上 token 才能推送
-          token: ${{ secrets.GITHUB_TOKEN }}
-          fetch-depth: 0
+    permissions:
+      contents: write
 
-      - uses: repo-sync/github-sync@v2
-        name: 同步上游仓库
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          source_repo: "chen114514sheng/ProDecTalk3D"  # 替换为原始仓库地址
-          source_branch: "main"              # 原仓库的分支名，通常是 main
-          destination_branch: "main"         # 你 fork 仓库的分支名
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git user
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Pull from personal fork
+        run: |
+          git remote add fork https://github.com/chen114514sheng/ProDecTalk3D.git
+          git fetch fork main
+          # 使用 -X theirs 自动采用个人 fork 的版本解决冲突
+          git merge fork/main --allow-unrelated-histories --no-edit -X theirs -m "Sync from personal fork"
+          git push origin main
