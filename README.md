@@ -9,6 +9,12 @@ ProDecTalk3D 在 VQ-VAE 的基础上引入 **分阶段解耦** 与 **向量量�
 - 论文状态：当前论文尚未投稿，仓库内容以代码与实验实现为准
 - 仓库地址：https://github.com/chen114514sheng/ProDecTalk3D
 
+## Demo
+
+这是一个面向 Windows 的 WebUI Demo，用于统一运行 DecTalk3D 和 ProDecTalk3D。 提供模型权重与数据文件。
+
+Demo地址：https://github.com/chen114514sheng/DecTalk3D-Demo
+
 ## 方法概述
 
 本文方法包含两个部分：
